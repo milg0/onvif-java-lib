@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
@@ -123,7 +124,7 @@ public class SOAP {
 	}
 
 	protected SOAPMessage createSoapMessage(Object soapRequestElem) throws SOAPException, ParserConfigurationException, JAXBException {
-		MessageFactory messageFactory = MessageFactory.newInstance();
+		MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 		SOAPMessage soapMessage = messageFactory.createMessage();
 
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
