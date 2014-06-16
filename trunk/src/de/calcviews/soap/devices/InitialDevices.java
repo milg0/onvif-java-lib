@@ -48,7 +48,7 @@ public class InitialDevices {
 		GetSystemDateAndTimeResponse response = new GetSystemDateAndTimeResponse();
 
 		try {
-			response = (GetSystemDateAndTimeResponse) soap.createSOAPDeviceRequest(new GetSystemDateAndTime(), response);
+			response = (GetSystemDateAndTimeResponse) soap.createSOAPDeviceRequest(new GetSystemDateAndTime(), response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class InitialDevices {
 		GetDeviceInformation getHostname = new GetDeviceInformation();
 		GetDeviceInformationResponse response = new GetDeviceInformationResponse();
 		try {
-			response = (GetDeviceInformationResponse) soap.createSOAPDeviceRequest(getHostname, response);
+			response = (GetDeviceInformationResponse) soap.createSOAPDeviceRequest(getHostname, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -80,7 +80,7 @@ public class InitialDevices {
 		GetHostname getHostname = new GetHostname();
 		GetHostnameResponse response = new GetHostnameResponse();
 		try {
-			response = (GetHostnameResponse) soap.createSOAPDeviceRequest(getHostname, response);
+			response = (GetHostnameResponse) soap.createSOAPDeviceRequest(getHostname, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -95,7 +95,7 @@ public class InitialDevices {
 		setHostname.setName(hostname);
 		SetHostnameResponse response = new SetHostnameResponse();
 		try {
-			response = (SetHostnameResponse) soap.createSOAPDeviceRequest(setHostname, response);
+			response = (SetHostnameResponse) soap.createSOAPDeviceRequest(setHostname, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class InitialDevices {
 		GetUsers getUsers = new GetUsers();
 		GetUsersResponse response = new GetUsersResponse();
 		try {
-			response = (GetUsersResponse) soap.createSOAPDeviceRequest(getUsers, response);
+			response = (GetUsersResponse) soap.createSOAPDeviceRequest(getUsers, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class InitialDevices {
 		GetCapabilitiesResponse response = new GetCapabilitiesResponse();
 
 		try {
-			response = (GetCapabilitiesResponse) soap.createSOAPRequest(getCapabilities, response, onvifDevice.getDeviceUri());
+			response = (GetCapabilitiesResponse) soap.createSOAPRequest(getCapabilities, response, onvifDevice.getDeviceUri(), false);
 		}
 		catch (SOAPException e) {
 			throw e;
@@ -146,7 +146,7 @@ public class InitialDevices {
 		GetProfilesResponse response = new GetProfilesResponse();
 
 		try {
-			response = (GetProfilesResponse) soap.createSOAPMediaRequest(request, response);
+			response = (GetProfilesResponse) soap.createSOAPMediaRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class InitialDevices {
 		SystemRebootResponse response = new SystemRebootResponse();
 
 		try {
-			response = (SystemRebootResponse) soap.createSOAPMediaRequest(request, response);
+			response = (SystemRebootResponse) soap.createSOAPMediaRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();

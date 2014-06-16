@@ -71,7 +71,7 @@ public class MediaDevices {
 		request.setStreamSetup(streamSetup);
 
 		try {
-			response = (GetStreamUriResponse) soap.createSOAPMediaRequest(request, response);
+			response = (GetStreamUriResponse) soap.createSOAPMediaRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class MediaDevices {
 		request.setProfileToken(profileToken);
 
 		try {
-			response = (GetVideoEncoderConfigurationOptionsResponse) soap.createSOAPMediaRequest(request, response);
+			response = (GetVideoEncoderConfigurationOptionsResponse) soap.createSOAPMediaRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class MediaDevices {
 		request.setForcePersistence(true);
 
 		try {
-			response = (SetVideoEncoderConfigurationResponse) soap.createSOAPMediaRequest(request, response);
+			response = (SetVideoEncoderConfigurationResponse) soap.createSOAPMediaRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -148,7 +148,7 @@ public class MediaDevices {
 		request.setProfileToken(profileToken);
 
 		try {
-			response = (GetSnapshotUriResponse) soap.createSOAPMediaRequest(request, response);
+			response = (GetSnapshotUriResponse) soap.createSOAPMediaRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -167,7 +167,7 @@ public class MediaDevices {
 		GetVideoSourcesResponse response = new GetVideoSourcesResponse();
 
 		try {
-			response = (GetVideoSourcesResponse) soap.createSOAPMediaRequest(request, response);
+			response = (GetVideoSourcesResponse) soap.createSOAPMediaRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();

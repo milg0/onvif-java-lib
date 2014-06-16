@@ -36,21 +36,20 @@ public class SOAP {
 		this.onvifDevice = onvifDevice;
 	}
 
-	public Object createSOAPDeviceRequest(Object soapRequestElem, Object soapResponseElem) throws SOAPException, ConnectException {
-		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getDeviceUri());
+	public Object createSOAPDeviceRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getDeviceUri(), needsAuthentification);
 	}
 
-	public Object createSOAPPtzRequest(Object soapRequestElem, Object soapResponseElem) throws SOAPException, ConnectException {
-		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getPtzUri());
-
+	public Object createSOAPPtzRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getPtzUri(), needsAuthentification);
 	}
 
-	public Object createSOAPMediaRequest(Object soapRequestElem, Object soapResponseElem) throws SOAPException, ConnectException {
-		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getMediaUri());
+	public Object createSOAPMediaRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getMediaUri(), needsAuthentification);
 	}
 
-	public Object createSOAPImagingRequest(Object soapRequestElem, Object soapResponseElem) throws SOAPException, ConnectException {
-		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getImagingUri());
+	public Object createSOAPImagingRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getImagingUri(), needsAuthentification);
 	}
 
 	/**
@@ -61,7 +60,7 @@ public class SOAP {
 	 * @throws SOAPException
 	 * @throws ConnectException
 	 */
-	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri) throws SOAPException, ConnectException {
+	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri, boolean needsAuthentification) throws SOAPException, ConnectException {
 		SOAPConnection soapConnection = null;
 
 		try {
@@ -69,7 +68,7 @@ public class SOAP {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			soapConnection = soapConnectionFactory.createConnection();
 
-			SOAPMessage soapMessage = createSoapMessage(soapRequestElem);
+			SOAPMessage soapMessage = createSoapMessage(soapRequestElem, needsAuthentification);
 
 			// Print the request message
 			if (isLogging()) {
@@ -123,7 +122,7 @@ public class SOAP {
 		}
 	}
 
-	protected SOAPMessage createSoapMessage(Object soapRequestElem) throws SOAPException, ParserConfigurationException, JAXBException {
+	protected SOAPMessage createSoapMessage(Object soapRequestElem, boolean needAuthentification) throws SOAPException, ParserConfigurationException, JAXBException {
 		MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 		SOAPMessage soapMessage = messageFactory.createMessage();
 
@@ -132,7 +131,8 @@ public class SOAP {
 		marshaller.marshal(soapRequestElem, document);
 		soapMessage.getSOAPBody().addDocument(document);
 
-		createSoapHeader(soapMessage);
+		if (needAuthentification)
+			createSoapHeader(soapMessage);
 
 		soapMessage.saveChanges();
 		return soapMessage;
@@ -162,7 +162,7 @@ public class SOAP {
 			passwordElem.setTextContent(encrypedPassword);
 
 			SOAPElement nonceElem = usernameTokenElem.addChildElement("Nonce", "wsse");
-			nonceElem.setAttribute("EncodingType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#BaseBinary");
+			nonceElem.setAttribute("EncodingType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary");
 			nonceElem.setTextContent(onvifDevice.getEncryptedNonce());
 
 			SOAPElement createdElem = usernameTokenElem.addChildElement("Created", "wsu");
