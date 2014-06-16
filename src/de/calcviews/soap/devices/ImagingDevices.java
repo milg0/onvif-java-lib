@@ -36,7 +36,7 @@ public class ImagingDevices {
 		request.setVideoSourceToken(videoSourceToken);
 
 		try {
-			response = (GetOptionsResponse) soap.createSOAPImagingRequest(request, response);
+			response = (GetOptionsResponse) soap.createSOAPImagingRequest(request, response, false);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class ImagingDevices {
 		request.setFocus(focusMove);
 
 		try {
-			response = (MoveResponse) soap.createSOAPImagingRequest(request, response);
+			response = (MoveResponse) soap.createSOAPImagingRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();

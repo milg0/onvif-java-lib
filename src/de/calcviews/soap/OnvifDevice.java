@@ -85,8 +85,8 @@ public class OnvifDevice {
 		this.initialDevices = new InitialDevices(this);
 		this.ptzDevices = new PtzDevices(this);
 		this.mediaDevices = new MediaDevices(this);
-		this.imagingDevices = new ImagingDevices(this); 
-
+		this.imagingDevices = new ImagingDevices(this);
+		
 		init();
 	}
 
@@ -209,9 +209,10 @@ public class OnvifDevice {
 	 * Returns encrypted version of given password like algorithm like in WS-UsernameToken
 	 */
 	public String encryptPassword() {
+		String nonce = getNonce();
 		String timestamp = getUTCTime();
 
-		String beforeEncryption = getNonce() + timestamp + password;
+		String beforeEncryption = nonce + timestamp + password;
 
 		byte[] encryptedRaw;
 		try {
@@ -325,6 +326,10 @@ public class OnvifDevice {
 	
 	public Date getDate() {
 		return initialDevices.getDate();
+	}
+	
+	public String getName() {
+		return initialDevices.getDeviceInformation().getModel();
 	}
 	
 	public String getHostname() {
