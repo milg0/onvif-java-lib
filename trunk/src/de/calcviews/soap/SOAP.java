@@ -72,7 +72,7 @@ public class SOAP {
 
 			// Print the request message
 			if (isLogging()) {
-				System.out.print("Request SOAP Message: ");
+				System.out.print("Request SOAP Message ("+soapRequestElem.getClass().getSimpleName()+"): ");
 				soapMessage.writeTo(System.out);
 				System.out.println();
 			}
@@ -82,7 +82,7 @@ public class SOAP {
 
 			// print SOAP Response
 			if (isLogging()) {
-				System.out.print("Response SOAP Message: ");
+				System.out.print("Response SOAP Message ("+soapResponseElem.getClass().getSimpleName()+"): ");
 				soapResponse.writeTo(System.out);
 				System.out.println();
 			}
