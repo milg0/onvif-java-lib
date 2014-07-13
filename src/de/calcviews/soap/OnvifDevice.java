@@ -73,7 +73,7 @@ public class OnvifDevice {
 		this.HOST_IP = hostIp;
 
 		if (!isOnline()) {
-			// throw new ConnectException("Host not available.");
+			throw new ConnectException("Host not available.");
 		}
 
 		this.serverDeviceUri = "http://" + HOST_IP + "/onvif/device_service";
@@ -129,7 +129,7 @@ public class OnvifDevice {
 				SocketAddress sockaddr = new InetSocketAddress(ip, new Integer(port));
 				socket = new Socket();
 
-				socket.connect(sockaddr, 7500);
+				socket.connect(sockaddr, 5000);
 			}
 			catch (NumberFormatException | IOException e) {
 				return false;

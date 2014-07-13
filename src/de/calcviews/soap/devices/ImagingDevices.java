@@ -7,10 +7,15 @@ import javax.xml.soap.SOAPException;
 import org.onvif.ver10.schema.AbsoluteFocus;
 import org.onvif.ver10.schema.FocusMove;
 import org.onvif.ver10.schema.ImagingOptions20;
+import org.onvif.ver10.schema.ImagingSettings20;
+import org.onvif.ver20.imaging.wsdl.GetImagingSettings;
+import org.onvif.ver20.imaging.wsdl.GetImagingSettingsResponse;
 import org.onvif.ver20.imaging.wsdl.GetOptions;
 import org.onvif.ver20.imaging.wsdl.GetOptionsResponse;
 import org.onvif.ver20.imaging.wsdl.Move;
 import org.onvif.ver20.imaging.wsdl.MoveResponse;
+import org.onvif.ver20.imaging.wsdl.SetImagingSettings;
+import org.onvif.ver20.imaging.wsdl.SetImagingSettingsResponse;
 
 import de.calcviews.soap.OnvifDevice;
 import de.calcviews.soap.SOAP;
@@ -82,4 +87,54 @@ public class ImagingDevices {
 		return true;
 	}
 
+	public ImagingSettings20 getImagingSettings(String videoSourceToken) {
+		if (videoSourceToken == null) {
+			return null;
+		}
+
+		GetImagingSettings request = new GetImagingSettings();
+		GetImagingSettingsResponse response = new GetImagingSettingsResponse();
+
+		request.setVideoSourceToken(videoSourceToken);
+
+		try {
+			response = (GetImagingSettingsResponse) soap.createSOAPImagingRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getImagingSettings();
+	}
+
+	public boolean setImagingSettings(String videoSourceToken, ImagingSettings20 imagingSettings) {
+		if (videoSourceToken == null) {
+			return false;
+		}
+
+		SetImagingSettings request = new SetImagingSettings();
+		SetImagingSettingsResponse response = new SetImagingSettingsResponse();
+
+		request.setVideoSourceToken(videoSourceToken);
+		request.setImagingSettings(imagingSettings);
+
+		try {
+			response = (SetImagingSettingsResponse) soap.createSOAPImagingRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		if (response == null) {
+			return false;
+		}
+
+		return true;
+	}
 }
