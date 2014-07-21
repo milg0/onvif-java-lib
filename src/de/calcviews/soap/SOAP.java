@@ -131,7 +131,7 @@ public class SOAP {
 		marshaller.marshal(soapRequestElem, document);
 		soapMessage.getSOAPBody().addDocument(document);
 
-		if (needAuthentification)
+		//if (needAuthentification)
 			createSoapHeader(soapMessage);
 
 		soapMessage.saveChanges();
