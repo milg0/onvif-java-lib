@@ -250,7 +250,7 @@ public class PtzDevices {
 		request.setProfileToken(profileToken);
 
 		try {
-			response = (GetPresetsResponse) soap.createSOAPPtzRequest(request, response, false);
+			response = (GetPresetsResponse) soap.createSOAPPtzRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();

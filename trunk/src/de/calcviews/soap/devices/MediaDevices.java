@@ -148,7 +148,7 @@ public class MediaDevices {
 		request.setProfileToken(profileToken);
 
 		try {
-			response = (GetSnapshotUriResponse) soap.createSOAPMediaRequest(request, response, false);
+			response = (GetSnapshotUriResponse) soap.createSOAPMediaRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();

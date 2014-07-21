@@ -66,7 +66,7 @@ public class InitialDevices {
 		GetDeviceInformation getHostname = new GetDeviceInformation();
 		GetDeviceInformationResponse response = new GetDeviceInformationResponse();
 		try {
-			response = (GetDeviceInformationResponse) soap.createSOAPDeviceRequest(getHostname, response, false);
+			response = (GetDeviceInformationResponse) soap.createSOAPDeviceRequest(getHostname, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
@@ -146,7 +146,7 @@ public class InitialDevices {
 		GetProfilesResponse response = new GetProfilesResponse();
 
 		try {
-			response = (GetProfilesResponse) soap.createSOAPMediaRequest(request, response, false);
+			response = (GetProfilesResponse) soap.createSOAPMediaRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
 			e.printStackTrace();
