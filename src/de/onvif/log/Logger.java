@@ -1,4 +1,4 @@
-package de.calcviews.log;
+package de.onvif.log;
 
 public class Logger {
 	public void debug(String text) {

@@ -1,4 +1,4 @@
-package de.calcviews.soap.devices;
+package de.onvif.soap.devices;
 
 import java.net.ConnectException;
 import java.util.Calendar;
@@ -29,8 +29,8 @@ import org.onvif.ver10.schema.Profile;
 import org.onvif.ver10.schema.Time;
 import org.onvif.ver10.schema.User;
 
-import de.calcviews.soap.OnvifDevice;
-import de.calcviews.soap.SOAP;
+import de.onvif.soap.OnvifDevice;
+import de.onvif.soap.SOAP;
 
 public class InitialDevices {
 

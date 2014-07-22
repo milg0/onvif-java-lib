@@ -1,4 +1,4 @@
-package de.calcviews.soap;
+package de.onvif.soap;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -21,11 +21,11 @@ import javax.xml.soap.SOAPException;
 import org.apache.commons.codec.binary.Base64;
 import org.onvif.ver10.schema.Capabilities;
 
-import de.calcviews.log.Logger;
-import de.calcviews.soap.devices.ImagingDevices;
-import de.calcviews.soap.devices.InitialDevices;
-import de.calcviews.soap.devices.MediaDevices;
-import de.calcviews.soap.devices.PtzDevices;
+import de.onvif.log.Logger;
+import de.onvif.soap.devices.ImagingDevices;
+import de.onvif.soap.devices.InitialDevices;
+import de.onvif.soap.devices.MediaDevices;
+import de.onvif.soap.devices.PtzDevices;
 
 /**
  * 
