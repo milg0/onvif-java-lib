@@ -21,6 +21,8 @@ import org.onvif.ver10.device.wsdl.SetHostname;
 import org.onvif.ver10.device.wsdl.SetHostnameResponse;
 import org.onvif.ver10.device.wsdl.SystemReboot;
 import org.onvif.ver10.device.wsdl.SystemRebootResponse;
+import org.onvif.ver10.media.wsdl.GetProfile;
+import org.onvif.ver10.media.wsdl.GetProfileResponse;
 import org.onvif.ver10.media.wsdl.GetProfiles;
 import org.onvif.ver10.media.wsdl.GetProfilesResponse;
 import org.onvif.ver10.schema.Capabilities;
@@ -158,6 +160,27 @@ public class InitialDevices {
 		}
 
 		return response.getProfiles();
+	}
+
+	public Profile getProfile(String profileToken) {
+		GetProfile request = new GetProfile();
+		GetProfileResponse response = new GetProfileResponse();
+		
+		request.setProfileToken(profileToken);
+
+		try {
+			response = (GetProfileResponse) soap.createSOAPMediaRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getProfile();
 	}
 
 	public String reboot() {

@@ -11,6 +11,7 @@ import org.onvif.ver10.schema.PTZPreset;
 import org.onvif.ver10.schema.PTZSpeed;
 import org.onvif.ver10.schema.PTZStatus;
 import org.onvif.ver10.schema.PTZVector;
+import org.onvif.ver10.schema.Profile;
 import org.onvif.ver10.schema.Vector1D;
 import org.onvif.ver10.schema.Vector2D;
 import org.onvif.ver20.ptz.wsdl.AbsoluteMove;
@@ -38,7 +39,6 @@ import de.onvif.soap.OnvifDevice;
 import de.onvif.soap.SOAP;
 
 public class PtzDevices {
-	@SuppressWarnings("unused")
 	private OnvifDevice onvifDevice;
 	private SOAP soap;
 
@@ -47,11 +47,12 @@ public class PtzDevices {
 		this.soap = onvifDevice.getSoap();
 	}
 	
-	public PTZNode getNode() {
+	public PTZNode getNode(String profileToken) {
 		GetNode request = new GetNode();
 		GetNodeResponse response = new GetNodeResponse();
 		
-		request.setNodeToken("PtzNode");
+		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		request.setNodeToken(profile.getPTZConfiguration().getToken());
 		
 		try {
 			response = (GetNodeResponse) soap.createSOAPDeviceRequest(request, response, true);
@@ -80,7 +81,7 @@ public class PtzDevices {
 	 * @throws SOAPException 
 	 */
 	public boolean absoluteMove(String profileToken, float x, float y, float zoom) throws SOAPException {
-		PTZNode node = getNode();
+		PTZNode node = getNode(profileToken);
 		if (node != null) {
 			FloatRange xRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getXRange();
 			FloatRange yRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getYRange();
