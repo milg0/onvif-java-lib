@@ -1,4 +1,4 @@
-package de.calcviews.soap.devices;
+package de.onvif.soap.devices;
 
 import java.net.ConnectException;
 
@@ -17,8 +17,8 @@ import org.onvif.ver20.imaging.wsdl.MoveResponse;
 import org.onvif.ver20.imaging.wsdl.SetImagingSettings;
 import org.onvif.ver20.imaging.wsdl.SetImagingSettingsResponse;
 
-import de.calcviews.soap.OnvifDevice;
-import de.calcviews.soap.SOAP;
+import de.onvif.soap.OnvifDevice;
+import de.onvif.soap.SOAP;
 
 public class ImagingDevices {
 	@SuppressWarnings("unused")

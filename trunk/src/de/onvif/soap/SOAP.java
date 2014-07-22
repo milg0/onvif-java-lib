@@ -1,4 +1,4 @@
-package de.calcviews.soap;
+package de.onvif.soap;
 
 import java.io.IOException;
 import java.net.ConnectException;

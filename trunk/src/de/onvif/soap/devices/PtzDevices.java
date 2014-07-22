@@ -1,4 +1,4 @@
-package de.calcviews.soap.devices;
+package de.onvif.soap.devices;
 
 import java.net.ConnectException;
 import java.util.List;
@@ -34,8 +34,8 @@ import org.onvif.ver20.ptz.wsdl.SetPresetResponse;
 import org.onvif.ver20.ptz.wsdl.Stop;
 import org.onvif.ver20.ptz.wsdl.StopResponse;
 
-import de.calcviews.soap.OnvifDevice;
-import de.calcviews.soap.SOAP;
+import de.onvif.soap.OnvifDevice;
+import de.onvif.soap.SOAP;
 
 public class PtzDevices {
 	@SuppressWarnings("unused")
