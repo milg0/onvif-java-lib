@@ -81,18 +81,20 @@ public class PtzDevices {
 	 */
 	public boolean absoluteMove(String profileToken, float x, float y, float zoom) throws SOAPException {
 		PTZNode node = getNode();
-		FloatRange xRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getXRange();
-		FloatRange yRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getYRange();
-		FloatRange zRange = node.getSupportedPTZSpaces().getAbsoluteZoomPositionSpace().get(0).getXRange();
-		
-		if (zoom < zRange.getMin() || zoom > zRange.getMax()) {
-			throw new IllegalArgumentException("Bad value for zoom: "+zoom);
-		}
-		if (x < xRange.getMin() || x > xRange.getMax()) {
-			throw new IllegalArgumentException("Bad value for pan:/x "+x);
-		}
-		if (y < yRange.getMin() || y > yRange.getMax()) {
-			throw new IllegalArgumentException("Bad value for tilt/y: "+y);
+		if (node != null) {
+			FloatRange xRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getXRange();
+			FloatRange yRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getYRange();
+			FloatRange zRange = node.getSupportedPTZSpaces().getAbsoluteZoomPositionSpace().get(0).getXRange();
+			
+			if (zoom < zRange.getMin() || zoom > zRange.getMax()) {
+				throw new IllegalArgumentException("Bad value for zoom: "+zoom);
+			}
+			if (x < xRange.getMin() || x > xRange.getMax()) {
+				throw new IllegalArgumentException("Bad value for pan:/x "+x);
+			}
+			if (y < yRange.getMin() || y > yRange.getMax()) {
+				throw new IllegalArgumentException("Bad value for tilt/y: "+y);
+			}
 		}
 		
 		AbsoluteMove request = new AbsoluteMove();
