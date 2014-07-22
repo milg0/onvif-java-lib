@@ -52,7 +52,7 @@ public class PtzDevices {
 		GetNodeResponse response = new GetNodeResponse();
 		
 		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
-		request.setNodeToken(profile.getPTZConfiguration().getToken());
+		request.setNodeToken(profile.getPTZConfiguration().getNodeToken());
 		
 		try {
 			response = (GetNodeResponse) soap.createSOAPDeviceRequest(request, response, true);
