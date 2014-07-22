@@ -191,6 +191,10 @@ public class OnvifDevice {
 	}
 
 	public String replaceLocalIpWithProxyIp(String original) {
+		if (original.startsWith("http:///")) {
+			original.replace("http:///", "http://"+HOST_IP);
+		}
+		
 		if (isProxy) {
 			return original.replace(originalIp, HOST_IP);
 		}
