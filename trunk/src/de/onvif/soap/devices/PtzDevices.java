@@ -313,13 +313,12 @@ public class PtzDevices {
 		return true;
 	}
 
-	public boolean gotoPreset(String presetToken, String profileToken, PTZSpeed ptzSpeed) {
+	public boolean gotoPreset(String presetToken, String profileToken) {
 		GotoPreset request = new GotoPreset();
 		GotoPresetResponse response = new GotoPresetResponse();
 
 		request.setProfileToken(profileToken);
 		request.setPresetToken(presetToken);
-		request.setSpeed(ptzSpeed);
 
 		try {
 			response = (GotoPresetResponse) soap.createSOAPPtzRequest(request, response, true);
