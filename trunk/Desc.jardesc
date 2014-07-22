@@ -12,6 +12,6 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=onvif/src"/>
-        <folder path="/onvif/lib"/>
+        <file path="/onvif/lib/commons-codec-1.9.jar"/>
     </selectedElements>
 </jardesc>
