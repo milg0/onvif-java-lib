@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="onvif/release/onvif-2014-08-25.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/onvif/Desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="onvif/release/onvif-2014-08-25-sources.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/onvif/Desc_sources.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="false" manifestLocation="/onvif/manifest.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
@@ -10,7 +10,7 @@
             <packagesToUnSeal/>
         </sealing>
     </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=onvif/src"/>
         <file path="/onvif/lib/commons-codec-1.9.jar"/>
     </selectedElements>
