@@ -35,27 +35,61 @@ public class MediaDevices {
 		this.onvifDevice = onvifDevice;
 		this.soap = onvifDevice.getSoap();
 	}
-
+	
+	@Deprecated
 	public String getDefaultHTTPStreamUri() {
+		return getHTTPStreamUri(0);
+	}
+	
+	@Deprecated
+	public String getDefaultUDPStreamUri() {
+		return getUDPStreamUri(0);
+	}
+
+	public String getHTTPStreamUri(int mediaProfileNumber) {
 		StreamSetup setup = new StreamSetup();
 		setup.setStream(StreamType.RTP_UNICAST);
 		Transport transport = new Transport();
 		transport.setProtocol(TransportProtocol.HTTP);
 		setup.setTransport(transport);
-		return getDefaultStreamUri(setup);
+		return getStreamUri(setup, mediaProfileNumber);
 	}
 
-	public String getDefaultUDPStreamUri() {
+	public String getUDPStreamUri(int mediaProfileNumber) {
 		StreamSetup setup = new StreamSetup();
 		setup.setStream(StreamType.RTP_UNICAST);
 		Transport transport = new Transport();
 		transport.setProtocol(TransportProtocol.UDP);
 		setup.setTransport(transport);
-		return getDefaultStreamUri(setup);
+		return getStreamUri(setup, mediaProfileNumber);
 	}
 
+	public String getTCPStreamUri(int mediaProfileNumber) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(setup, mediaProfileNumber);
+	}
+
+	public String getRTSPStreamUri(int mediaProfileNumber) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(setup, mediaProfileNumber);
+	}
+
+	@Deprecated
 	public String getDefaultStreamUri(StreamSetup streamSetup) {
 		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(0);
+		return getStreamUri(mediaProfile, streamSetup);
+	}
+	
+	public String getStreamUri(StreamSetup streamSetup, int mediaProfileNumber) {
+		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(mediaProfileNumber);
 		return getStreamUri(mediaProfile, streamSetup);
 	}
 
