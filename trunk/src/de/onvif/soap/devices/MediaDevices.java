@@ -166,13 +166,19 @@ public class MediaDevices {
 		return true;
 	}
 
+	@Deprecated
 	public String getDefaultSceenshotUri() {
 		return getDefaultSnapshotUri();
 	}
 
+	@Deprecated
 	public String getDefaultSnapshotUri() {
 		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(0);
 		return getSnapshotUri(mediaProfile.getToken());
+	}
+
+	public String getSceenshotUri(String profileToken) {
+		return getSnapshotUri(profileToken);
 	}
 
 	public String getSnapshotUri(String profileToken) {

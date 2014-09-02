@@ -8,6 +8,7 @@ import javax.xml.soap.SOAPException;
 import org.onvif.ver10.schema.FloatRange;
 import org.onvif.ver10.schema.PTZNode;
 import org.onvif.ver10.schema.PTZPreset;
+import org.onvif.ver10.schema.PTZSpaces;
 import org.onvif.ver10.schema.PTZSpeed;
 import org.onvif.ver10.schema.PTZStatus;
 import org.onvif.ver10.schema.PTZVector;
@@ -68,6 +69,32 @@ public class PtzDevices {
 
 		return response.getPTZNode();
 	}
+	
+	public FloatRange getPanSpaces(String profileToken) {
+		PTZNode node = getNode(profileToken);
+
+		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
+		System.out.println("getAbsolutePanTiltPositionSpace size(): "+ptzSpaces.getAbsolutePanTiltPositionSpace().size());
+		for (int i=0;i<ptzSpaces.getAbsolutePanTiltPositionSpace().size();++i) {
+			System.out.println("pan "+i+": "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getXRange().getMin() + " to "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getXRange().getMax());
+			System.out.println("tilt "+i+": "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getYRange().getMin() + " to "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getYRange().getMax());
+		}
+		return ptzSpaces.getAbsolutePanTiltPositionSpace().get(0).getXRange();
+	}
+	
+	public FloatRange getTiltSpaces(String profileToken) {
+		PTZNode node = getNode(profileToken);
+
+		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
+		return ptzSpaces.getAbsolutePanTiltPositionSpace().get(0).getYRange();
+	}
+	
+	public FloatRange getZoomSpaces(String profileToken) {
+		PTZNode node = getNode(profileToken);
+
+		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
+		return ptzSpaces.getAbsoluteZoomPositionSpace().get(0).getXRange();
+	}
 
 	/**
 	 * 
@@ -76,7 +103,8 @@ public class PtzDevices {
 	 * @param y
 	 *            Tilt-Position [-1  to 1]
 	 * @param zoom
-	 *            Zoom [0 to 1]
+	 *            Zoom
+	 * @see getPanSpaces(), getTiltSpaces(), getZoomSpaces()
 	 * @return True if move successful
 	 * @throws SOAPException 
 	 */
