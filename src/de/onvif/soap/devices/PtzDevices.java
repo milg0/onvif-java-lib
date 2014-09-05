@@ -74,11 +74,6 @@ public class PtzDevices {
 		PTZNode node = getNode(profileToken);
 
 		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
-		System.out.println("getAbsolutePanTiltPositionSpace size(): "+ptzSpaces.getAbsolutePanTiltPositionSpace().size());
-		for (int i=0;i<ptzSpaces.getAbsolutePanTiltPositionSpace().size();++i) {
-			System.out.println("pan "+i+": "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getXRange().getMin() + " to "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getXRange().getMax());
-			System.out.println("tilt "+i+": "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getYRange().getMin() + " to "+ptzSpaces.getAbsolutePanTiltPositionSpace().get(i).getYRange().getMax());
-		}
 		return ptzSpaces.getAbsolutePanTiltPositionSpace().get(0).getXRange();
 	}
 	
