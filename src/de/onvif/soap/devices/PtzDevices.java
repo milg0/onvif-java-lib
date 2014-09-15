@@ -21,6 +21,8 @@ import org.onvif.ver20.ptz.wsdl.ContinuousMove;
 import org.onvif.ver20.ptz.wsdl.ContinuousMoveResponse;
 import org.onvif.ver20.ptz.wsdl.GetNode;
 import org.onvif.ver20.ptz.wsdl.GetNodeResponse;
+import org.onvif.ver20.ptz.wsdl.GetNodes;
+import org.onvif.ver20.ptz.wsdl.GetNodesResponse;
 import org.onvif.ver20.ptz.wsdl.GetPresets;
 import org.onvif.ver20.ptz.wsdl.GetPresetsResponse;
 import org.onvif.ver20.ptz.wsdl.GetStatus;
@@ -46,6 +48,25 @@ public class PtzDevices {
 	public PtzDevices(OnvifDevice onvifDevice) {
 		this.onvifDevice = onvifDevice;
 		this.soap = onvifDevice.getSoap();
+	}
+	
+	public List<PTZNode> getNodes() {
+		GetNodes request = new GetNodes();
+		GetNodesResponse response = new GetNodesResponse();
+		
+		try {
+			response = (GetNodesResponse) soap.createSOAPDeviceRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getPTZNode();
 	}
 	
 	public PTZNode getNode(String profileToken) {
