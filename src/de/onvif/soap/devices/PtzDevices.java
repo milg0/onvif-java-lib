@@ -29,6 +29,8 @@ import org.onvif.ver20.ptz.wsdl.GetStatus;
 import org.onvif.ver20.ptz.wsdl.GetStatusResponse;
 import org.onvif.ver20.ptz.wsdl.GotoPreset;
 import org.onvif.ver20.ptz.wsdl.GotoPresetResponse;
+import org.onvif.ver20.ptz.wsdl.RelativeMove;
+import org.onvif.ver20.ptz.wsdl.RelativeMoveResponse;
 import org.onvif.ver20.ptz.wsdl.RemovePreset;
 import org.onvif.ver20.ptz.wsdl.RemovePresetResponse;
 import org.onvif.ver20.ptz.wsdl.SetHomePosition;
@@ -49,11 +51,11 @@ public class PtzDevices {
 		this.onvifDevice = onvifDevice;
 		this.soap = onvifDevice.getSoap();
 	}
-	
+
 	public List<PTZNode> getNodes() {
 		GetNodes request = new GetNodes();
 		GetNodesResponse response = new GetNodesResponse();
-		
+
 		try {
 			response = (GetNodesResponse) soap.createSOAPDeviceRequest(request, response, true);
 		}
@@ -68,14 +70,14 @@ public class PtzDevices {
 
 		return response.getPTZNode();
 	}
-	
+
 	public PTZNode getNode(String profileToken) {
 		GetNode request = new GetNode();
 		GetNodeResponse response = new GetNodeResponse();
-		
+
 		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
 		request.setNodeToken(profile.getPTZConfiguration().getNodeToken());
-		
+
 		try {
 			response = (GetNodeResponse) soap.createSOAPDeviceRequest(request, response, true);
 		}
@@ -90,21 +92,21 @@ public class PtzDevices {
 
 		return response.getPTZNode();
 	}
-	
+
 	public FloatRange getPanSpaces(String profileToken) {
 		PTZNode node = getNode(profileToken);
 
 		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
 		return ptzSpaces.getAbsolutePanTiltPositionSpace().get(0).getXRange();
 	}
-	
+
 	public FloatRange getTiltSpaces(String profileToken) {
 		PTZNode node = getNode(profileToken);
 
 		PTZSpaces ptzSpaces = node.getSupportedPTZSpaces();
 		return ptzSpaces.getAbsolutePanTiltPositionSpace().get(0).getYRange();
 	}
-	
+
 	public FloatRange getZoomSpaces(String profileToken) {
 		PTZNode node = getNode(profileToken);
 
@@ -112,17 +114,29 @@ public class PtzDevices {
 		return ptzSpaces.getAbsoluteZoomPositionSpace().get(0).getXRange();
 	}
 
+	public boolean isAbsoluteMoveSupported(String profileToken) {
+		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		try {
+			if (profile.getPTZConfiguration().getDefaultAbsolutePantTiltPositionSpace() != null) {
+				return true;
+			}
+		}
+		catch (NullPointerException e) {
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @param x
-	 *            Pan-Position, [-1  to 1]
+	 *            Pan-Position
 	 * @param y
-	 *            Tilt-Position [-1  to 1]
+	 *            Tilt-Position
 	 * @param zoom
 	 *            Zoom
 	 * @see getPanSpaces(), getTiltSpaces(), getZoomSpaces()
 	 * @return True if move successful
-	 * @throws SOAPException 
+	 * @throws SOAPException
 	 */
 	public boolean absoluteMove(String profileToken, float x, float y, float zoom) throws SOAPException {
 		PTZNode node = getNode(profileToken);
@@ -130,18 +144,18 @@ public class PtzDevices {
 			FloatRange xRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getXRange();
 			FloatRange yRange = node.getSupportedPTZSpaces().getAbsolutePanTiltPositionSpace().get(0).getYRange();
 			FloatRange zRange = node.getSupportedPTZSpaces().getAbsoluteZoomPositionSpace().get(0).getXRange();
-			
+
 			if (zoom < zRange.getMin() || zoom > zRange.getMax()) {
-				throw new IllegalArgumentException("Bad value for zoom: "+zoom);
+				throw new IllegalArgumentException("Bad value for zoom: " + zoom);
 			}
 			if (x < xRange.getMin() || x > xRange.getMax()) {
-				throw new IllegalArgumentException("Bad value for pan:/x "+x);
+				throw new IllegalArgumentException("Bad value for pan:/x " + x);
 			}
 			if (y < yRange.getMin() || y > yRange.getMax()) {
-				throw new IllegalArgumentException("Bad value for tilt/y: "+y);
+				throw new IllegalArgumentException("Bad value for tilt/y: " + y);
 			}
 		}
-		
+
 		AbsoluteMove request = new AbsoluteMove();
 		AbsoluteMoveResponse response = new AbsoluteMoveResponse();
 
@@ -176,9 +190,58 @@ public class PtzDevices {
 		return true;
 	}
 
+	public boolean isRelativeMoveSupported(String profileToken) {
+		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		try {
+			if (profile.getPTZConfiguration().getDefaultRelativePanTiltTranslationSpace() != null) {
+				return true;
+			}
+		}
+		catch (NullPointerException e) {
+		}
+		return false;
+	}
+
 	public boolean relativeMove(String profileToken, float x, float y, float zoom) {
-		if (continuousMove(profileToken, x, y, zoom)) {
-			return stopMove(profileToken);
+		RelativeMove request = new RelativeMove();
+		RelativeMoveResponse response = new RelativeMoveResponse();
+
+		Vector2D panTiltVector = new Vector2D();
+		panTiltVector.setX(x);
+		panTiltVector.setY(y);
+		Vector1D zoomVector = new Vector1D();
+		zoomVector.setX(zoom);
+
+		PTZVector translation = new PTZVector();
+		translation.setPanTilt(panTiltVector);
+		translation.setZoom(zoomVector);
+
+		request.setProfileToken(profileToken);
+		request.setTranslation(translation);
+
+		try {
+			response = (RelativeMoveResponse) soap.createSOAPPtzRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		if (response == null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean isContinuosMoveSupported(String profileToken) {
+		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		try {
+			if (profile.getPTZConfiguration().getDefaultContinuousPanTiltVelocitySpace() != null) {
+				return true;
+			}
+		}
+		catch (NullPointerException e) {
 		}
 		return false;
 	}
