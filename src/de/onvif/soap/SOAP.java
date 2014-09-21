@@ -107,6 +107,10 @@ public class SOAP {
 		catch (SocketException e) {
 			throw new ConnectException(e.getLocalizedMessage());
 		}
+		catch (SOAPException e) {
+			onvifDevice.getLogger().error("Unhandled exception: "+e.getLocalizedMessage());
+			return null;
+		}
 		catch (ParserConfigurationException | JAXBException | IOException e) {
 			onvifDevice.getLogger().error("Unhandled exception:");
 			e.printStackTrace();
