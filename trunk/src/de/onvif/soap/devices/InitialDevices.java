@@ -13,10 +13,15 @@ import org.onvif.ver10.device.wsdl.GetDeviceInformation;
 import org.onvif.ver10.device.wsdl.GetDeviceInformationResponse;
 import org.onvif.ver10.device.wsdl.GetHostname;
 import org.onvif.ver10.device.wsdl.GetHostnameResponse;
+import org.onvif.ver10.device.wsdl.GetScopes;
+import org.onvif.ver10.device.wsdl.GetScopesResponse;
+import org.onvif.ver10.device.wsdl.GetServices;
+import org.onvif.ver10.device.wsdl.GetServicesResponse;
 import org.onvif.ver10.device.wsdl.GetSystemDateAndTime;
 import org.onvif.ver10.device.wsdl.GetSystemDateAndTimeResponse;
 import org.onvif.ver10.device.wsdl.GetUsers;
 import org.onvif.ver10.device.wsdl.GetUsersResponse;
+import org.onvif.ver10.device.wsdl.Service;
 import org.onvif.ver10.device.wsdl.SetHostname;
 import org.onvif.ver10.device.wsdl.SetHostnameResponse;
 import org.onvif.ver10.device.wsdl.SystemReboot;
@@ -28,6 +33,7 @@ import org.onvif.ver10.media.wsdl.GetProfilesResponse;
 import org.onvif.ver10.schema.Capabilities;
 import org.onvif.ver10.schema.Date;
 import org.onvif.ver10.schema.Profile;
+import org.onvif.ver10.schema.Scope;
 import org.onvif.ver10.schema.Time;
 import org.onvif.ver10.schema.User;
 
@@ -181,6 +187,46 @@ public class InitialDevices {
 		}
 
 		return response.getProfile();
+	}
+
+	public List<Service> getServices(boolean includeCapability) {
+		GetServices request = new GetServices();
+		GetServicesResponse response = new GetServicesResponse();
+		
+		request.setIncludeCapability(includeCapability);
+		
+		try {
+			response = (GetServicesResponse) soap.createSOAPDeviceRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getService();
+	}
+
+	public List<Scope> getScopes() {
+		GetScopes request = new GetScopes();
+		GetScopesResponse response = new GetScopesResponse();
+
+		try {
+			response = (GetScopesResponse) soap.createSOAPMediaRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getScopes();
 	}
 
 	public String reboot() {
