@@ -278,7 +278,7 @@ public class PtzDevices {
 		return true;
 	}
 
-	protected boolean stopMove(String profileToken) {
+	public boolean stopMove(String profileToken) {
 		Stop request = new Stop();
 		request.setPanTilt(true);
 		request.setZoom(true);
