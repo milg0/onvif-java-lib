@@ -26,6 +26,8 @@ import org.onvif.ver10.device.wsdl.SetHostname;
 import org.onvif.ver10.device.wsdl.SetHostnameResponse;
 import org.onvif.ver10.device.wsdl.SystemReboot;
 import org.onvif.ver10.device.wsdl.SystemRebootResponse;
+import org.onvif.ver10.media.wsdl.CreateProfile;
+import org.onvif.ver10.media.wsdl.CreateProfileResponse;
 import org.onvif.ver10.media.wsdl.GetProfile;
 import org.onvif.ver10.media.wsdl.GetProfileResponse;
 import org.onvif.ver10.media.wsdl.GetProfiles;
@@ -171,7 +173,7 @@ public class InitialDevices {
 	public Profile getProfile(String profileToken) {
 		GetProfile request = new GetProfile();
 		GetProfileResponse response = new GetProfileResponse();
-		
+
 		request.setProfileToken(profileToken);
 
 		try {
@@ -189,12 +191,33 @@ public class InitialDevices {
 		return response.getProfile();
 	}
 
+	public Profile createProfile(String name) {
+		CreateProfile request = new CreateProfile();
+		CreateProfileResponse response = new CreateProfileResponse();
+
+		request.setName(name);
+
+		try {
+			response = (CreateProfileResponse) soap.createSOAPMediaRequest(request, response, true);
+		}
+		catch (SOAPException | ConnectException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (response == null) {
+			return null;
+		}
+
+		return response.getProfile();
+	}
+
 	public List<Service> getServices(boolean includeCapability) {
 		GetServices request = new GetServices();
 		GetServicesResponse response = new GetServicesResponse();
-		
+
 		request.setIncludeCapability(includeCapability);
-		
+
 		try {
 			response = (GetServicesResponse) soap.createSOAPDeviceRequest(request, response, true);
 		}
