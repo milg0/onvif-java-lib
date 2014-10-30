@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.soap.SOAPException;
 
 import org.onvif.ver10.schema.FloatRange;
+import org.onvif.ver10.schema.PTZConfiguration;
 import org.onvif.ver10.schema.PTZNode;
 import org.onvif.ver10.schema.PTZPreset;
 import org.onvif.ver10.schema.PTZSpaces;
@@ -52,6 +53,23 @@ public class PtzDevices {
 		this.soap = onvifDevice.getSoap();
 	}
 
+	public boolean isPtzOperationsSupported(String profileToken) {
+		return getPTZConfiguration(profileToken) != null;
+	}
+
+	/**
+	 * @param profileToken
+	 * @return If is null, PTZ operations are not supported
+	 */
+	public PTZConfiguration getPTZConfiguration(String profileToken) {
+		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		if (profile.getPTZConfiguration() == null) {
+			return null; // no PTZ support
+		}
+
+		return profile.getPTZConfiguration();
+	}
+
 	public List<PTZNode> getNodes() {
 		GetNodes request = new GetNodes();
 		GetNodesResponse response = new GetNodesResponse();
@@ -72,14 +90,17 @@ public class PtzDevices {
 	}
 
 	public PTZNode getNode(String profileToken) {
+		return getNode(getPTZConfiguration(profileToken));
+	}
+
+	public PTZNode getNode(PTZConfiguration ptzConfiguration) {
 		GetNode request = new GetNode();
 		GetNodeResponse response = new GetNodeResponse();
 
-		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
-		if (profile.getPTZConfiguration() == null) {
+		if (ptzConfiguration == null) {
 			return null; // no PTZ support
 		}
-		request.setNodeToken(profile.getPTZConfiguration().getNodeToken());
+		request.setNodeToken(ptzConfiguration.getNodeToken());
 
 		try {
 			response = (GetNodeResponse) soap.createSOAPDeviceRequest(request, response, true);
