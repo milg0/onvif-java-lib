@@ -156,7 +156,7 @@ public class OnvifDevice {
 	 *             GetCapabilities()
 	 * @throws SOAPException 
 	 */
-	public void init() throws ConnectException, SOAPException {
+	protected void init() throws ConnectException, SOAPException {
 		Capabilities capabilities = getDevices().getCapabilities();
 
 		if (capabilities == null) {
