@@ -76,6 +76,9 @@ public class PtzDevices {
 		GetNodeResponse response = new GetNodeResponse();
 
 		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		if (profile.getPTZConfiguration() == null) {
+			return null; // no PTZ support
+		}
 		request.setNodeToken(profile.getPTZConfiguration().getNodeToken());
 
 		try {
