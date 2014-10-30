@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="onvif/release/onvif-2014-09-21.jar"/>
+    <jar path="onvif/release/onvif-2014-10-30.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/onvif/Desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
