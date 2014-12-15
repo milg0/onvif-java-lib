@@ -62,7 +62,13 @@ public class PtzDevices {
 	 * @return If is null, PTZ operations are not supported
 	 */
 	public PTZConfiguration getPTZConfiguration(String profileToken) {
+		if (profileToken == null || profileToken.equals("")) {
+			return null;
+		}
 		Profile profile = onvifDevice.getDevices().getProfile(profileToken);
+		if (profile == null) {
+			throw new IllegalArgumentException("No profile available for token: "+profileToken);
+		}
 		if (profile.getPTZConfiguration() == null) {
 			return null; // no PTZ support
 		}
