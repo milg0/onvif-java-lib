@@ -316,15 +316,15 @@ public class OnvifDevice {
 		return serverDeviceUri;
 	}
 
-	public String getPtzUri() {
+	protected String getPtzUri() {
 		return serverPtzUri;
 	}
 
-	public String getMediaUri() {
+	protected String getMediaUri() {
 		return serverMediaUri;
 	}
 
-	public String getImagingUri() {
+	protected String getImagingUri() {
 		return serverImagingUri;
 	}
 	
