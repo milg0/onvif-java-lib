@@ -1,0 +1,1 @@
+Get javadoc at http://www.milgo.de/inc/onvif/
