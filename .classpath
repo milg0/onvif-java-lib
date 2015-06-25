@@ -7,5 +7,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/ONVIF/lib/commons-codec-1.9-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/javaWsDiscovery-0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
