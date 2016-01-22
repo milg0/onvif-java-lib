@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="onvif-java-lib/release/onvif-2015-08-14.jar"/>
+    <jar path="onvif-java-lib/release/onvif-2016-01-22.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/onvif-java-lib/Desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -13,5 +13,6 @@
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=onvif-java-lib/src"/>
         <file path="/onvif-java-lib/lib/commons-codec-1.9.jar"/>
+        <file path="/onvif-java-lib/lib/javaWsDiscovery-0.1.jar"/>
     </selectedElements>
 </jardesc>
