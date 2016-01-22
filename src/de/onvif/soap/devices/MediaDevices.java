@@ -35,66 +35,92 @@ public class MediaDevices {
 		this.onvifDevice = onvifDevice;
 		this.soap = onvifDevice.getSoap();
 	}
-	
-	@Deprecated
-	public String getDefaultHTTPStreamUri() {
-		return getHTTPStreamUri(0);
-	}
-	
-	@Deprecated
-	public String getDefaultUDPStreamUri() {
-		return getUDPStreamUri(0);
-	}
 
-	public String getHTTPStreamUri(int mediaProfileNumber) {
+	@Deprecated
+	public String getHTTPStreamUri(int profileNumber) {
 		StreamSetup setup = new StreamSetup();
 		setup.setStream(StreamType.RTP_UNICAST);
 		Transport transport = new Transport();
 		transport.setProtocol(TransportProtocol.HTTP);
 		setup.setTransport(transport);
-		return getStreamUri(setup, mediaProfileNumber);
+		return getStreamUri(setup, profileNumber);
 	}
 
-	public String getUDPStreamUri(int mediaProfileNumber) {
+	public String getHTTPStreamUri(String profileToken) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.HTTP);
+		setup.setTransport(transport);
+		return getStreamUri(profileToken, setup);
+	}
+
+	@Deprecated
+	public String getUDPStreamUri(int profileNumber) {
 		StreamSetup setup = new StreamSetup();
 		setup.setStream(StreamType.RTP_UNICAST);
 		Transport transport = new Transport();
 		transport.setProtocol(TransportProtocol.UDP);
 		setup.setTransport(transport);
-		return getStreamUri(setup, mediaProfileNumber);
+		return getStreamUri(setup, profileNumber);
 	}
 
-	public String getTCPStreamUri(int mediaProfileNumber) {
+	public String getUDPStreamUri(String profileToken) {
 		StreamSetup setup = new StreamSetup();
 		setup.setStream(StreamType.RTP_UNICAST);
 		Transport transport = new Transport();
-		transport.setProtocol(TransportProtocol.TCP);
+		transport.setProtocol(TransportProtocol.UDP);
 		setup.setTransport(transport);
-		return getStreamUri(setup, mediaProfileNumber);
-	}
-
-	public String getRTSPStreamUri(int mediaProfileNumber) {
-		StreamSetup setup = new StreamSetup();
-		setup.setStream(StreamType.RTP_UNICAST);
-		Transport transport = new Transport();
-		transport.setProtocol(TransportProtocol.TCP);
-		setup.setTransport(transport);
-		return getStreamUri(setup, mediaProfileNumber);
+		return getStreamUri(profileToken, setup);
 	}
 
 	@Deprecated
-	public String getDefaultStreamUri(StreamSetup streamSetup) {
-		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(0);
-		return getStreamUri(mediaProfile, streamSetup);
-	}
-	
-	public String getStreamUri(StreamSetup streamSetup, int mediaProfileNumber) {
-		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(mediaProfileNumber);
-		return getStreamUri(mediaProfile, streamSetup);
+	public String getTCPStreamUri(int profileNumber) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(setup, profileNumber);
 	}
 
-	public String getStreamUri(Profile mediaProfile, StreamSetup streamSetup) {
-		return getStreamUri(mediaProfile.getToken(), streamSetup);
+	public String getTCPStreamUri(String profileToken) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(profileToken, setup);
+	}
+
+	@Deprecated
+	public String getRTSPStreamUri(int profileNumber) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(setup, profileNumber);
+	}
+	
+	public String getRTSPStreamUri(String profileToken) {
+		StreamSetup setup = new StreamSetup();
+		setup.setStream(StreamType.RTP_UNICAST);
+		Transport transport = new Transport();
+		transport.setProtocol(TransportProtocol.TCP);
+		setup.setTransport(transport);
+		return getStreamUri(profileToken, setup);
+	}
+	
+	@Deprecated
+	public String getStreamUri(StreamSetup streamSetup, int profileNumber) {
+		Profile profile = onvifDevice.getDevices().getProfiles().get(profileNumber);
+		return getStreamUri(profile, streamSetup);
+	}
+
+	@Deprecated
+	public String getStreamUri(Profile profile, StreamSetup streamSetup) {
+		return getStreamUri(profile.getToken(), streamSetup);
 	}
 
 	public String getStreamUri(String profileToken, StreamSetup streamSetup) {
@@ -164,17 +190,6 @@ public class MediaDevices {
 		}
 
 		return true;
-	}
-
-	@Deprecated
-	public String getDefaultSceenshotUri() {
-		return getDefaultSnapshotUri();
-	}
-
-	@Deprecated
-	public String getDefaultSnapshotUri() {
-		Profile mediaProfile = onvifDevice.getDevices().getProfiles().get(0);
-		return getSnapshotUri(mediaProfile.getToken());
 	}
 
 	public String getSceenshotUri(String profileToken) {
