@@ -60,7 +60,7 @@ public class SOAP {
 	 * @throws SOAPException
 	 * @throws ConnectException
 	 */
-	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri, boolean needsAuthentification) throws SOAPException, ConnectException {
+	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri, boolean needsAuthentification) throws ConnectException, SOAPException {
 		SOAPConnection soapConnection = null;
 
 		try {
@@ -105,14 +105,15 @@ public class SOAP {
 			return soapResponseElem;
 		}
 		catch (SocketException e) {
-			throw new ConnectException(e.getLocalizedMessage());
+			throw new ConnectException(e.getMessage());
 		}
 		catch (SOAPException e) {
-			onvifDevice.getLogger().error("Unhandled exception: "+e.getLocalizedMessage());
+			onvifDevice.getLogger().error("Unhandled exception: "+e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 		catch (ParserConfigurationException | JAXBException | IOException e) {
-			onvifDevice.getLogger().error("Unhandled exception:");
+			onvifDevice.getLogger().error("Unhandled exception: "+e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -121,7 +122,6 @@ public class SOAP {
 				soapConnection.close();
 			}
 			catch (SOAPException e) {
-				e.printStackTrace();
 			}
 		}
 	}
