@@ -36,7 +36,8 @@ public class SOAP {
 		this.onvifDevice = onvifDevice;
 	}
 
-	public Object createSOAPDeviceRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+	public Object createSOAPDeviceRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException,
+			ConnectException {
 		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getDeviceUri(), needsAuthentification);
 	}
 
@@ -48,7 +49,8 @@ public class SOAP {
 		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getMediaUri(), needsAuthentification);
 	}
 
-	public Object createSOAPImagingRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException, ConnectException {
+	public Object createSOAPImagingRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException,
+			ConnectException {
 		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getImagingUri(), needsAuthentification);
 	}
 
@@ -60,8 +62,10 @@ public class SOAP {
 	 * @throws SOAPException
 	 * @throws ConnectException
 	 */
-	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri, boolean needsAuthentification) throws ConnectException, SOAPException {
+	public Object createSOAPRequest(Object soapRequestElem, Object soapResponseElem, String soapUri, boolean needsAuthentification) throws ConnectException,
+			SOAPException {
 		SOAPConnection soapConnection = null;
+		SOAPMessage soapResponse = null;
 
 		try {
 			// Create SOAP Connection
@@ -72,17 +76,16 @@ public class SOAP {
 
 			// Print the request message
 			if (isLogging()) {
-				System.out.print("Request SOAP Message ("+soapRequestElem.getClass().getSimpleName()+"): ");
+				System.out.print("Request SOAP Message (" + soapRequestElem.getClass().getSimpleName() + "): ");
 				soapMessage.writeTo(System.out);
 				System.out.println();
 			}
 
-			SOAPMessage soapResponse = null;
 			soapResponse = soapConnection.call(soapMessage, soapUri);
 
 			// print SOAP Response
 			if (isLogging()) {
-				System.out.print("Response SOAP Message ("+soapResponseElem.getClass().getSimpleName()+"): ");
+				System.out.print("Response SOAP Message (" + soapResponseElem.getClass().getSimpleName() + "): ");
 				soapResponse.writeTo(System.out);
 				System.out.println();
 			}
@@ -108,12 +111,12 @@ public class SOAP {
 			throw new ConnectException(e.getMessage());
 		}
 		catch (SOAPException e) {
-			onvifDevice.getLogger().error("Unhandled exception: "+e.getMessage());
-			e.printStackTrace();
-			return null;
+			onvifDevice.getLogger().error(
+					"Unexpected response. Response should be from class " + soapResponseElem.getClass() + ", but response is: " + soapResponse);
+			throw e;
 		}
 		catch (ParserConfigurationException | JAXBException | IOException e) {
-			onvifDevice.getLogger().error("Unhandled exception: "+e.getMessage());
+			onvifDevice.getLogger().error("Unhandled exception: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -126,7 +129,8 @@ public class SOAP {
 		}
 	}
 
-	protected SOAPMessage createSoapMessage(Object soapRequestElem, boolean needAuthentification) throws SOAPException, ParserConfigurationException, JAXBException {
+	protected SOAPMessage createSoapMessage(Object soapRequestElem, boolean needAuthentification) throws SOAPException, ParserConfigurationException,
+			JAXBException {
 		MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 		SOAPMessage soapMessage = messageFactory.createMessage();
 
@@ -135,8 +139,8 @@ public class SOAP {
 		marshaller.marshal(soapRequestElem, document);
 		soapMessage.getSOAPBody().addDocument(document);
 
-		//if (needAuthentification)
-			createSoapHeader(soapMessage);
+		// if (needAuthentification)
+		createSoapHeader(soapMessage);
 
 		soapMessage.saveChanges();
 		return soapMessage;

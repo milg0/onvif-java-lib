@@ -340,7 +340,7 @@ public class OnvifDevice {
 		return initialDevices.getHostname();
 	}
 	
-	public String reboot() {
+	public String reboot() throws ConnectException, SOAPException {
 		return initialDevices.reboot();
 	}
 }

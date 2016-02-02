@@ -252,7 +252,7 @@ public class InitialDevices {
 		return response.getScopes();
 	}
 
-	public String reboot() {
+	public String reboot() throws ConnectException, SOAPException {
 		SystemReboot request = new SystemReboot();
 		SystemRebootResponse response = new SystemRebootResponse();
 
@@ -260,8 +260,7 @@ public class InitialDevices {
 			response = (SystemRebootResponse) soap.createSOAPMediaRequest(request, response, true);
 		}
 		catch (SOAPException | ConnectException e) {
-			e.printStackTrace();
-			return null;
+			throw e;
 		}
 
 		if (response == null) {

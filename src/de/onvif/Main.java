@@ -14,7 +14,7 @@ import de.onvif.soap.OnvifDevice;
 
 public class Main {
 
-	private static final String INFO = "Commands:\n  \n  url: Get snapshort URL.\n  info: Get information about each valid command.\n  exit: Exit this application.";
+	private static final String INFO = "Commands:\n  \n  url: Get snapshort URL.\n  info: Get information about each valid command.\n  profiles: Get all profiles.\n  exit: Exit this application.";
 
 	public static void main(String args[]) {
 		InputStreamReader inputStream = new InputStreamReader(System.in);
@@ -62,6 +62,9 @@ public class Main {
 				case "profiles":
 					List<Profile> profiles = cam.getDevices().getProfiles();
 					System.out.println("Number of profiles: " + profiles.size());
+					for (Profile p : profiles) {
+						System.out.println("  Profile "+p.getName()+" token is: "+p.getToken());
+					}
 					break;
 				case "info":
 					System.out.println(INFO);
