@@ -55,7 +55,12 @@ public class Main {
 				case "url": {
 					List<Profile> profiles = cam.getDevices().getProfiles();
 					for (Profile p : profiles) {
-						System.out.println("URL von Profil \'" + p.getName() + "\': " + cam.getMedia().getSnapshotUri(p.getToken()));
+						try {
+							System.out.println("URL from Profile \'" + p.getName() + "\': " + cam.getMedia().getSnapshotUri(p.getToken()));
+						}
+						catch (SOAPException e) {
+							System.err.println("Cannot grap snapshot URL, got Exception "+e.getMessage());
+						}
 					}
 					break;
 				}
