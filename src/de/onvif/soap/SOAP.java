@@ -96,7 +96,14 @@ public class SOAP {
 
 			Unmarshaller unmarshaller = JAXBContext.newInstance(soapResponseElem.getClass()).createUnmarshaller();
 			try {
-				soapResponseElem = unmarshaller.unmarshal(soapResponse.getSOAPBody().extractContentAsDocument());
+				try {
+					soapResponseElem = unmarshaller.unmarshal(soapResponse.getSOAPBody().extractContentAsDocument());
+				}
+				catch (SOAPException e) {
+					// Second try for SOAP 1.2
+					// Sorry, I don't know why it works, it just does o.o
+					soapResponseElem = unmarshaller.unmarshal(soapResponse.getSOAPBody().extractContentAsDocument());
+				}
 			}
 			catch (UnmarshalException e) {
 				// Fault soapFault = (Fault)
