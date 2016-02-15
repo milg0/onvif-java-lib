@@ -114,7 +114,7 @@ public class OnvifDevice {
 		// without port
 		if (!HOST_IP.contains(":")) {
 			try {
-				return InetAddress.getByName(HOST_IP).isReachable(7500);
+				return InetAddress.getByName(HOST_IP).isReachable(30000);
 			}
 			catch (IOException e) {
 				return false;
