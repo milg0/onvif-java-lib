@@ -2,7 +2,6 @@ package de.onvif.soap;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -111,40 +110,29 @@ public class OnvifDevice {
 	 * requests.
 	 */
 	private boolean isOnline() {
-		// without port
-		if (!HOST_IP.contains(":")) {
-			try {
-				return InetAddress.getByName(HOST_IP).isReachable(30000);
-			}
-			catch (IOException e) {
-				return false;
-			}
-		}
-		// with port
-		else {
-			String ip = HOST_IP.substring(0, HOST_IP.indexOf(':'));
-			String port = HOST_IP.substring(HOST_IP.indexOf(':') + 1);
-			Socket socket = null;
-			try {
-				SocketAddress sockaddr = new InetSocketAddress(ip, new Integer(port));
-				socket = new Socket();
+		String port = HOST_IP.contains(":") ? HOST_IP.substring(HOST_IP.indexOf(':') + 1) : "80";
+		String ip = HOST_IP.contains(":") ? HOST_IP.substring(0, HOST_IP.indexOf(':')) : HOST_IP;
+		
+		Socket socket = null;
+		try {
+			SocketAddress sockaddr = new InetSocketAddress(ip, new Integer(port));
+			socket = new Socket();
 
-				socket.connect(sockaddr, 5000);
-			}
-			catch (NumberFormatException | IOException e) {
-				return false;
-			}
-			finally {
-				try {
-					if (socket != null) {
-						socket.close();
-					}
-				}
-				catch (IOException ex) {
-				}
-			}
-			return true;
+			socket.connect(sockaddr, 5000);
 		}
+		catch (NumberFormatException | IOException e) {
+			return false;
+		}
+		finally {
+			try {
+				if (socket != null) {
+					socket.close();
+				}
+			}
+			catch (IOException ex) {
+			}
+		}
+		return true;
 	}
 
 	/**
