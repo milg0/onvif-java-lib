@@ -1,2 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: lib/commons-codec-1.9.jar lib/javaWsDiscovery-0.1jar

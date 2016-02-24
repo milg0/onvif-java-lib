@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.onvif</groupId>
+		<artifactId>onvif</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>onvif-ws-client</artifactId>
+
+	<properties>
+		<onvif.wsdl.baseurl>${basedir}/src/main/cxf</onvif.wsdl.baseurl>
+		<!-- <onvif.wsdl.baseurl>http://www.onvif.org</onvif.wsdl.baseurl> -->
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-xjc-plugin</artifactId>
+				<version>2.3.0</version>
+				<configuration>
+					<extensions>
+						<extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.3.0</extension>
+					</extensions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-base-java-obj</id>
+						<!-- <phase>generate-sources</phase> -->
+						<!-- <goals> -->
+						<!-- <goal>xsdtojava</goal> -->
+						<!-- </goals> -->
+						<configuration>
+							<sourceRoot>${basedir}/src/main/java</sourceRoot>
+							<xsdOptions>
+								<xsdOption>
+									<xsd>http://www.onvif.org/ver10/schema/onvif.xsd</xsd>
+									<extensionArgs>
+										<extensionArg>-nv</extensionArg>
+									</extensionArgs>
+								</xsdOption>
+							</xsdOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-ws-stubs</id>
+						<!-- <phase>generate-sources</phase> -->
+						<!-- <goals> -->
+						<!-- <goal>wsdl2java</goal> -->
+						<!-- </goals> -->
+						<configuration>
+							<extraargs>
+								<extraarg>-verbose</extraarg>
+								<extraarg>-client</extraarg>
+								<extraarg>-xjc-Xts</extraarg>
+							</extraargs>
+							<sourceRoot>${basedir}/src/main/java</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver20/imaging/wsdl/imaging.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver20/media/wsdl/media.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver10/media/wsdl/media.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver20/ptz/wsdl/ptz.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver10/events/wsdl/event.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver10/device/wsdl/devicemgmt.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver10/Search.wsdl</wsdl>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${onvif.wsdl.baseurl}/ver10/Replay.wsdl</wsdl>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.cxf
+										</groupId>
+										<artifactId>
+											cxf-xjc-plugin
+										</artifactId>
+										<versionRange>
+											[2.3.0,)
+										</versionRange>
+										<goals>
+											<goal>xsdtojava</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
