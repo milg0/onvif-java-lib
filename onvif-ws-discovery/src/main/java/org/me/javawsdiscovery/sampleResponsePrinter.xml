@@ -1,0 +1,24 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+                   xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+                   xmlns:wsdisco="http://schemas.xmlsoap.org/ws/2005/04/discovery">
+    <SOAP-ENV:Header>
+        <wsa:MessageID>urn:uuid:80a488c3-6acf-481c-8295-30055c3f49b5</wsa:MessageID>
+        <wsa:RelatesTo>urn:uuid:ed3b9171-0338-42d0-9134-424f76bee829</wsa:RelatesTo>
+        <wsa:To>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:To>
+        <wsa:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches</wsa:Action>
+        <wsdisco:AppSequence InstanceId="20" MessageNumber="40"/>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <wsdisco:ProbeMatches>
+            <wsdisco:ProbeMatch
+                    xmlns:wsdp="http://schemas.xmlsoap.org/ws/2006/02/devprof">
+                <wsa:EndpointReference>
+                    <wsa:Address>urn:uuid:e3248000-80ce-11db-8000-30055c3f49b5</wsa:Address>
+                </wsa:EndpointReference>
+                <wsdisco:Types>wsdp:Device wprt:PrintDeviceType wscn:ScanDeviceType</wsdisco:Types>
+                <wsdisco:XAddrs>http://192.168.188.40:80/WebServices/Device</wsdisco:XAddrs>
+                <wsdisco:MetadataVersion>20</wsdisco:MetadataVersion>
+            </wsdisco:ProbeMatch>
+        </wsdisco:ProbeMatches>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
