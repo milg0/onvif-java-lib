@@ -26,7 +26,7 @@ import org.w3c.dom.Document;
 
 public class SOAP {
 
-	private boolean logging = false;
+	private boolean logging = true;
 
 	private OnvifDevice onvifDevice;
 
@@ -52,6 +52,11 @@ public class SOAP {
 	public Object createSOAPImagingRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException,
 			ConnectException {
 		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getImagingUri(), needsAuthentification);
+	}
+
+	public Object createSOAPEventsRequest(Object soapRequestElem, Object soapResponseElem, boolean needsAuthentification) throws SOAPException,
+			ConnectException {
+		return createSOAPRequest(soapRequestElem, soapResponseElem, onvifDevice.getEventsUri(), needsAuthentification);
 	}
 
 	/**

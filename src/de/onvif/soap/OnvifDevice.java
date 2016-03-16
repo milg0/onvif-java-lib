@@ -39,7 +39,7 @@ public class OnvifDevice {
 
 	private String username, password, nonce, utcTime;
 
-	private String serverDeviceUri, serverPtzUri, serverMediaUri, serverImagingUri;
+	private String serverDeviceUri, serverPtzUri, serverMediaUri, serverImagingUri, serverEventsUri;
 
 	private SOAP soap;
 
@@ -175,6 +175,10 @@ public class OnvifDevice {
 		
 		if (capabilities.getImaging() != null && capabilities.getImaging().getXAddr() != null) {
 			serverImagingUri = replaceLocalIpWithProxyIp(capabilities.getImaging().getXAddr());
+		}
+
+		if (capabilities.getMedia() != null && capabilities.getEvents().getXAddr() != null) {
+			serverEventsUri = replaceLocalIpWithProxyIp(capabilities.getEvents().getXAddr());
 		}
 	}
 
@@ -314,6 +318,10 @@ public class OnvifDevice {
 
 	protected String getImagingUri() {
 		return serverImagingUri;
+	}
+
+	protected String getEventsUri() {
+		return serverEventsUri;
 	}
 	
 	public Date getDate() {
